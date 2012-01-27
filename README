@@ -24,30 +24,41 @@ To install this module type the following:
 HOW TO USE
 
 basic use:
-  use Sorauta::SVN::AutoCommit;
+  use Sorauta::Cache::HTTP::Request::Image;
 
-  my $SVN_MODE = "auto_commit";
-  my $SVN_WORK_DIR = "/Users/user/Desktop/svn_dir";
-  my $DEBUG = 0;
+  my $CACHE_PATH = '/tmp/';
+  my $SAMPLE_URLS = [
+    'http://www.google.co.jp/images/srpr/logo3w.png',
+  #  'http://sorauta.net/images/common/author.jpg',
+  ];
+  my $MAX_WIDTH = 900;
+  my $MAX_HEIGHT = 1600;
+  my $DEBUG = 0; # show debug log
+  my $CHECK = 0; # check updated cache image
+  my $RENDER = 0; # show image
 
-  my $ssa = Sorauta::SVN::AutoCommit->new({
-    svn_mode      => $SVN_MODE,
-    work_dir_path => $SVN_WORK_DIR,
-    debug         => $DEBUG,
-  });
+  # get test
+  {
+    # テスト用
+    my $url = $SAMPLE_URLS->[int(rand(@$SAMPLE_URLS))];
 
-  #print $ssa;
-  $ssa->execute();
+    # キャッシュ生成
+    my $result = Sorauta::Cache::HTTP::Request::Image->new({
+      cache_path            => $CACHE_PATH,
+      url                   => $url,
+      check                 => $CHECK,
+      render                => $RENDER,
+      debug                 => $DEBUG,
+    })->execute;
+
+    ok($result, "get request image");
+  }
 
 DEPENDENCIES
 
 This module requires these other modules and libraries:
 
-CGI::Carp
-Data::Dumper
-SVN::Agent
-SVN::Agent::Dummy
-Image::Magick
+LWP::UserAgent
 Sorauta::Utility
 
 COPYRIGHT AND LICENCE
