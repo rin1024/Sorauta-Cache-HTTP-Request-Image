@@ -1,0 +1,6 @@
+Changes
+Makefile.PL
+MANIFEST
+README
+t/Sorauta-Cache-HTTP-Request-Image.t
+lib/Sorauta/Cache/HTTP/Request/Image.pm
